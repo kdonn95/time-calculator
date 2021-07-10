@@ -28,25 +28,16 @@ def add_time(start, duration, day=None):
         new_hour -= 24
         days_passed += 1
 
-    # changing period
-    if new_hour > 12 and (new_hour % 12) != 0:
+    # changing period and hour if new_hour is 0
+    if new_hour == 0:
+        new_hour = 12
+        period = "AM"
+    elif new_hour >= 12:
         period = "PM"
+        if new_hour > 12:
+            new_hour -= 12  # converting back to 12 hour format
     else:
         period = "AM"
-
-    new_hour = new_hour % 12
-
-    if new_hour % 12 == 0 and period == "AM":
-        period = "PM"
-
-    # changing new_hour from 0 to 12
-    if new_hour % 12 == 0 and period == "AM":
-        period = "PM"
-
-    if new_hour == 0 and period == "AM":
-        new_hour = 12
-    elif new_hour == 0 and period == "PM":
-        new_hour = 12
 
     # adding 0 in front of the minute digit if new_minute < 10, i.e. of length 1
     if len(str(new_minute)) == 1:
@@ -66,5 +57,3 @@ def add_time(start, duration, day=None):
 
 
     return new_time
-
-print(add_time("11:40 AM", "0:25", "Monday"))
